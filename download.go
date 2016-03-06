@@ -57,7 +57,7 @@ func Download(name string, urls []string) error {
 	if err != nil {
 		return err
 	}
-	throttle := make(chan bool, 5)
+	throttle := make(chan bool, 10)
 	var wg sync.WaitGroup
 	for _, url := range urls {
 		throttle <- true
