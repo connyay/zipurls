@@ -1,1 +1,1 @@
-web: ./zupurls -listen=:$PORT
+web: ./zipurls -listen=:$PORT
