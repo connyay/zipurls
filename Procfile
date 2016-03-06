@@ -1,0 +1,1 @@
+web: ./zupurls -listen=:$PORT

@@ -1,0 +1,19 @@
+machine:
+  ## Install specific Go version
+  pre:
+    - curl -o go.tar.gz -sL https://golang.org/dl/go1.6.linux-amd64.tar.gz
+    - sudo rm -rf /usr/local/go
+    - sudo tar -C /usr/local -xzf go.tar.gz
+    - sudo chmod a+w /usr/local/go/src/
+
+dependencies:
+  pre:
+    - rm -rf ~/.go_workspace/src/*/*
+
+deployment:
+  production:
+    branch: /.*/
+    owner: connyay
+    commands:
+      - make slug
+      - mv slug.tgz $CIRCLE_ARTIFACTS/
