@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"flag"
 	"log"
 	"net/http"
@@ -58,12 +59,20 @@ func gather(c *echo.Context) error {
 	}
 	t := time.Now()
 	name := req.Name + "-" + t.Format("20060102150405") + ".zip"
+	// Write header quickly to prevent timeout
+	c.Response().WriteHeader(http.StatusCreated)
 	Download(name, req.URLs)
 	// setup delayed cleanup
 	go cleanup(name)
 	url := baseURL + "/download/" + name
 	resp := &downloadResponse{name, url}
-	return c.JSON(http.StatusCreated, resp)
+	b, err := json.Marshal(resp)
+	if err != nil {
+		return err
+	}
+	c.Response().Header().Set(echo.ContentType, echo.ApplicationJSONCharsetUTF8)
+	c.Response().Write(b)
+	return
 }
 
 func download(c *echo.Context) error {
