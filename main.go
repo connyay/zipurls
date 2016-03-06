@@ -9,6 +9,7 @@ import (
 
 	"github.com/labstack/echo"
 	mw "github.com/labstack/echo/middleware"
+	"github.com/rs/cors"
 )
 
 const fileTTL = 60 * time.Second
@@ -25,6 +26,7 @@ func main() {
 	// Middleware
 	e.Use(mw.Logger())
 	e.Use(mw.Recover())
+	e.Use(cors.Default().Handler)
 
 	// Routes
 	e.Get("/", ping)
