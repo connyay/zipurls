@@ -45,11 +45,11 @@ func downloadFromUrl(url, dir string, throttle chan bool, wg *sync.WaitGroup) {
 	fmt.Println(n, "bytes downloaded.")
 }
 
-func zip(dst, src string) {
-	zip := new(archivex.ZipFile)
-	zip.Create(dst)
-	zip.AddAll(src, false)
-	zip.Close()
+func compress(dst, src string) {
+	tar := new(archivex.TarFile)
+	tar.Create(dst)
+	tar.AddAll(src, false)
+	tar.Close()
 }
 
 func Download(name string, urls []string) error {
@@ -66,6 +66,6 @@ func Download(name string, urls []string) error {
 	}
 	wg.Wait()
 
-	zip(name, workDir)
+	compress(name, workDir)
 	return nil
 }
