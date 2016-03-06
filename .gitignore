@@ -24,4 +24,3 @@ _testmain.go
 *.prof
 *.zip
 slug.tgz
-*.tar.gz
