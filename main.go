@@ -72,7 +72,7 @@ func gather(c *echo.Context) error {
 	}
 	c.Response().Header().Set(echo.ContentType, echo.ApplicationJSONCharsetUTF8)
 	c.Response().Write(b)
-	return
+	return nil
 }
 
 func download(c *echo.Context) error {
