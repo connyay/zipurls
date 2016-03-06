@@ -13,6 +13,8 @@ import (
 
 const fileTTL = 60 * time.Second
 
+var baseURL = os.Getenv("BASE_URL")
+
 func main() {
 	addr := flag.String("listen", "localhost:3336", "address for server to listen")
 	flag.Parse()
@@ -44,6 +46,7 @@ type downloadRequest struct {
 
 type downloadResponse struct {
 	Name string `json:"name"`
+	URL  string `json:"url"`
 }
 
 func gather(c *echo.Context) error {
@@ -56,7 +59,8 @@ func gather(c *echo.Context) error {
 	Download(name, req.URLs)
 	// setup delayed cleanup
 	go cleanup(name)
-	resp := &downloadResponse{name}
+	url := baseURL + "/download/" + name
+	resp := &downloadResponse{name, url}
 	return c.JSON(http.StatusCreated, resp)
 }
 
